@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="labo01"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="labo01">
+				<Option output="D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/labo01.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="D:/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="D:/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32"/>
+					<Add directory="D:/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="D:/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include"/>
+					<Add directory="D:/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="D:/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 labo01"/>
+					<CompileFile command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="labo01/fast">
+				<Option output="D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/labo01.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="D:/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="D:/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32"/>
+					<Add directory="D:/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="D:/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include"/>
+					<Add directory="D:/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="D:/MinGW/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 labo01/fast"/>
+					<CompileFile command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/MinGW/mingw32/bin/mingw32-make.exe -f &quot;D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/ej02.cpp">
+			<Option target="labo01"/>
+		</Unit>
+		<Unit filename="D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
