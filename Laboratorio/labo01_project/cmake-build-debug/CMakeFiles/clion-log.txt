@@ -1,4 +1,0 @@
-D:\CLion\bin\cmake\win\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" "D:\Fede\UBA\2020-1C\Metodos Numericos\Material\Laboratorio\labo01_project"
--- Configuring done
--- Generating done
--- Build files have been written to: D:/Fede/UBA/2020-1C/Metodos Numericos/Material/Laboratorio/labo01_project/cmake-build-debug
