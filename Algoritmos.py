@@ -27,19 +27,6 @@ def are_LI(v, w):
     return ans
 
 
-def has_one_solution(A):
-    assert (is_squared(A))
-    n = len(A)
-    ans = True
-
-    for i in range(n):
-        for j in range(i + 1, n):
-            if not are_LI(A[i], A[j]):
-                ans = False
-
-    return ans
-
-
 def is_symmetric(A):
     assert (is_squared(A))
     return np.allclose(A, A.T)
@@ -108,6 +95,43 @@ def has_LU(A):
     return ans
 
 
+def norm_1(x):
+    n = len(x)
+    sum = 0
+    for i in range(n):
+        sum = sum + np.abs(x[i])
+
+    return sum
+
+
+def norm_2(x):
+    n = len(x)
+    sum = 0
+    for i in range(n):
+        sum = sum + x[i] ** 2
+
+    return np.sqrt(sum)
+
+
+def norm_infty(x):
+    n = len(x)
+    max = 0
+    for i in range(n):
+        if np.abs(x[i]) > max:
+            max = x[i]
+
+    return max
+
+
+def norm_p(x, p):
+    n = len(x)
+    sum = 0
+    for i in range(n):
+        sum = sum + np.abs(x[i]) ** p
+
+    return sum ** (1 / p)
+
+
 def gauss_no_perm(A):
     assert (is_squared(A))
     n = len(A)
@@ -146,6 +170,17 @@ def gauss(A):
                     ans[i, j] = ans[i, j] - f * ans[row, j]
             row += 1
             column += 1
+
+    return ans
+
+
+def has_one_solution(A):
+    triangle = gauss(A)
+    n = len(triangle)
+    ans = True
+    for i in range(n):
+        if norm_infty(triangle[i]) == 0:
+            ans = False
 
     return ans
 
@@ -204,11 +239,12 @@ def QR_Givens(A):
                 j += 1
         else:
             W = np.eye(n)
-            norm = np.sqrt(R[i, i] ** 2 + R[j, i] ** 2)
-            W[i, i] = R[i, i] / norm
-            W[i, j] = R[j, i] / norm
-            W[j, i] = -R[j, i] / norm
-            W[j, j] = R[i, i] / norm
+            v = np.array([R[i, i], R[j, i]])
+            norm = norm_2(v)
+            W[i, i] = v[0] / norm
+            W[i, j] = v[1] / norm
+            W[j, i] = -v[1] / norm
+            W[j, j] = v[0] / norm
             R = W @ R
             Q = W @ Q
             if j == n - 1:
@@ -221,8 +257,23 @@ def QR_Givens(A):
     return Q, R
 
 
-# def QR_Householder(A):
+def QR_Householder(A):
+    n = len(A)
+    R = A.copy()
+    Q = np.eye(n)
+    for i in range(n - 1):
+        v = R[i:, i]
+        w = np.zeros(len(v))
+        w[0] = norm_2(v)
+        u = (v - w) / norm_2(v - w)
+        if len(u) != n:
+            u = np.append(np.zeros(n - len(u)), u)
+        W = np.eye(n) - 2 * np.outer(u, u)
+        R = W @ R
+        Q = W @ Q
+    Q = Q.T
 
+    return Q, R
 
 
 def solve(A, b):

@@ -240,6 +240,126 @@ def QR_Givens_3():
     assert np.allclose(R_expected, R)
 
 
+@Test
+def QR_Givens_4():
+    A = np.array([
+        [12, -51, 4],
+        [6, 167, -68],
+        [-4, 24, -41]
+    ])
+    Q_expected = np.array([
+        [6 / 7, -69 / 175, 58 / 175],
+        [3 / 7, 158 / 175, -6 / 175],
+        [-2 / 7, 6 / 35, 33 / 35]
+    ])
+    R_expected = np.array([
+        [14, 21, -14],
+        [0, 175, -70],
+        [0, 0, -35]
+    ])
+
+    Q, R = QR_Givens(A)
+
+    assert np.allclose(Q, Q_expected)
+    assert np.allclose(R, R_expected)
+
+
+'''##### QR_Householder Tests #####'''
+
+
+@Test
+def QR_Householder_1():
+    A = np.array([
+        [1, 1],
+        [1, 2]
+    ])
+    Q_expected = np.array([
+        [1, 1],
+        [1, -1]
+    ]) / np.sqrt(2)
+    R_expected = np.array([
+        [2, 3],
+        [0, -1]
+    ]) / np.sqrt(2)
+
+    Q, R = QR_Householder(A)
+
+    assert np.allclose(Q, Q_expected)
+    assert np.allclose(R, R_expected)
+
+
+@Test
+def QR_Householder_2():
+    A = np.array([
+        [1, 2, 0],
+        [0, 1, 1],
+        [1, 0, 1]
+    ])
+    Q_expected = np.array([
+        [1 / np.sqrt(2), 1 / np.sqrt(3), -1 / np.sqrt(6)],
+        [0, 1 / np.sqrt(3), 2 / np.sqrt(6)],
+        [1 / np.sqrt(2), -1 / np.sqrt(3), 1 / np.sqrt(6)]
+    ])
+    R_expected = np.array([
+        [np.sqrt(2), np.sqrt(2), 1 / np.sqrt(2)],
+        [0, np.sqrt(3), 0],
+        [0, 0, np.sqrt(6) / 2]
+    ])
+
+    Q, R = QR_Householder(A)
+
+    assert np.allclose(Q, Q_expected)
+    assert np.allclose(R, R_expected)
+
+
+@Test
+def QR_Householder_3():
+    A = np.array([
+        [1, 1, 0],
+        [1, 0, 1],
+        [0, 1, 1]
+    ])
+    Q_expected = np.array([
+        [1 / np.sqrt(2), 1 / np.sqrt(6), 1 / np.sqrt(3)],
+        [1 / np.sqrt(2), -1 / np.sqrt(6), -1 / np.sqrt(3)],
+        [0, 2 / np.sqrt(6), -1 / np.sqrt(3)]
+    ])
+    R_expected = np.array([
+        [np.sqrt(2), 1 / np.sqrt(2), 1 / np.sqrt(2)],
+        [0, 3 / np.sqrt(6), 1 / np.sqrt(6)],
+        [0, 0, -2 / np.sqrt(3)]
+    ])
+
+    Q, R = QR_Householder(A)
+
+    assert np.allclose(Q_expected, Q)
+    assert np.allclose(R_expected, R)
+
+
+@Test
+def QR_Householder_4():
+    A = np.array([
+        [12, -51, 4],
+        [6, 167, -68],
+        [-4, 24, -41]
+    ])
+    Q_expected = np.array([
+        [6 / 7, -69 / 175, 58 / 175],
+        [3 / 7, 158 / 175, -6 / 175],
+        [-2 / 7, 6 / 35, 33 / 35]
+    ])
+    R_expected = np.array([
+        [14, 21, -14],
+        [0, 175, -70],
+        [0, 0, -35]
+    ])
+
+    Q, R = QR_Householder(A)
+
+    assert np.allclose(Q, Q_expected)
+    assert np.allclose(R, R_expected)
+
+
 '''##### solve Tests #####'''
 
 
