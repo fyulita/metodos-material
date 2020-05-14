@@ -1,12 +1,12 @@
 import numpy as np
 
 
-def is_matrix(A):
-    return not (len(A.shape) != 2 or A.shape[0] != A.shape[1])
+def is_squared(A):
+    return A.shape[0] == A.shape[1]
 
 
 def is_inversible(A):
-    assert (is_matrix(A))
+    assert (is_squared(A))
     return not np.isclose(np.abs(np.linalg.det(A)), 0)
 
 
@@ -28,7 +28,7 @@ def are_LI(v, w):
 
 
 def has_one_solution(A):
-    assert (is_matrix(A))
+    assert (is_squared(A))
     n = len(A)
     ans = True
 
@@ -41,12 +41,17 @@ def has_one_solution(A):
 
 
 def is_symmetric(A):
-    assert (is_matrix(A))
+    assert (is_squared(A))
     return np.allclose(A, A.T)
 
 
+def is_antisymmetric(A):
+    assert (is_squared(A))
+    return np.allclose(A, -A.T)
+
+
 def is_diagonal(A):
-    assert (is_matrix(A))
+    assert (is_squared(A))
     n = len(A)
     ans = True
     for i in range(n):
@@ -63,7 +68,7 @@ def is_orthogonal(A):
 
 
 def is_diagonally_dominant(A):
-    assert (is_matrix(A))
+    assert (is_squared(A))
     n = len(A)
     ans = True
     for i in range(n):
@@ -78,7 +83,7 @@ def is_diagonally_dominant(A):
 
 
 def is_diagonally_strictly_dominant(A):
-    assert (is_matrix(A))
+    assert (is_squared(A))
     n = len(A)
     ans = True
     for i in range(n):
@@ -93,7 +98,7 @@ def is_diagonally_strictly_dominant(A):
 
 
 def has_LU(A):
-    assert (is_matrix(A))
+    assert (is_squared(A))
     n = len(A)
     ans = True
     for i in range(1, n):
@@ -104,7 +109,7 @@ def has_LU(A):
 
 
 def gauss_no_perm(A):
-    assert (is_matrix(A))
+    assert (is_squared(A))
     n = len(A)
     ans = A.copy()
 
@@ -118,7 +123,7 @@ def gauss_no_perm(A):
 
 
 def gauss(A):
-    assert (is_matrix(A))
+    assert (is_squared(A))
 
     def swap(M, i, j):
         temp = M[i].copy()
@@ -141,45 +146,6 @@ def gauss(A):
                     ans[i, j] = ans[i, j] - f * ans[row, j]
             row += 1
             column += 1
-
-    return ans
-
-
-def solve(A, b):
-    assert (has_one_solution(A))
-
-    def swap(M, i, j):
-        temp = M[i].copy()
-        M[i] = M[j]
-        M[j] = temp
-
-    n = len(A)
-    A_work = A.copy()
-    ans = b.copy()
-    row = 0
-    column = 0
-    while row < n and column < n:
-        i_max = np.argmax(A_work[row:, column]) + row
-        if A_work[i_max, column] == 0:
-            column += 1
-        else:
-            swap(A_work, row, i_max)
-            swap(ans, row, i_max)
-            for i in range(row + 1, n):
-                f = A_work[i, column] / A_work[row, column]
-                for j in range(column, n):
-                    A_work[i, j] = A_work[i, j] - f * A_work[row, j]
-                ans[i] = ans[i] - f * ans[row]
-            row += 1
-            column += 1
-
-    k = n - 1
-    while k >= 0:
-        sum = ans[k]
-        for l in range(k + 1, n):
-            sum = sum - A_work[k, l] * ans[l]
-        ans[k] = sum / A_work[k, k]
-        k -= 1
 
     return ans
 
@@ -221,3 +187,56 @@ def cholesky(A):
     D = np.sqrt(D)
     L = L @ D
     return L
+
+
+def QR_Givens(A):
+    n = len(A)
+    R = A.copy()
+    Q = np.eye(n)
+    i = 0
+    j = 1
+    while i < j < n:
+        if R[j, i] == 0:
+            if j == n - 1:
+                i += 1
+                j = i + 1
+            else:
+                j += 1
+        else:
+            W = np.eye(n)
+            norm = np.sqrt(R[i, i] ** 2 + R[j, i] ** 2)
+            W[i, i] = R[i, i] / norm
+            W[i, j] = R[j, i] / norm
+            W[j, i] = -R[j, i] / norm
+            W[j, j] = R[i, i] / norm
+            R = W @ R
+            Q = W @ Q
+            if j == n - 1:
+                i += 1
+                j = i + 1
+            else:
+                j += 1
+    Q = Q.T
+
+    return Q, R
+
+
+# def QR_Householder(A):
+
+
+
+def solve(A, b):
+    assert(has_one_solution(A))
+    n = len(A)
+    Q, R = QR_Givens(A)
+    ans = Q.T @ b
+
+    k = n - 1
+    while k >= 0:
+        sum = ans[k]
+        for l in range(k + 1, n):
+            sum = sum - R[k, l] * ans[l]
+        ans[k] = sum / R[k, k]
+        k -= 1
+
+    return ans
