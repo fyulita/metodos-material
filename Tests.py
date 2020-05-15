@@ -404,4 +404,18 @@ def solve_3():
     assert np.allclose(x_expected, x)
 
 
+@Test
+def solve_4():
+    A = np.array([
+        [0.835, 0.667],
+        [0.333, 0.266]
+    ])
+    b = np.array([0.168, 0.067])
+    x_expected = np.array([1, -1])
+
+    x = solve(A, b)
+
+    assert np.allclose(x_expected, x)
+
+
 run_tests()
