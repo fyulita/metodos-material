@@ -6,12 +6,12 @@ def is_squared(A):
 
 
 def is_inversible(A):
-    assert (is_squared(A))
+    assert is_squared(A)
     return not np.isclose(np.abs(np.linalg.det(A)), 0)
 
 
 def are_LI(v, w):
-    assert (len(v) == len(w))
+    assert len(v) == len(w)
     n = len(v)
     ans = False
 
@@ -28,17 +28,17 @@ def are_LI(v, w):
 
 
 def is_symmetric(A):
-    assert (is_squared(A))
+    assert is_squared(A)
     return np.allclose(A, A.T)
 
 
 def is_antisymmetric(A):
-    assert (is_squared(A))
+    assert is_squared(A)
     return np.allclose(A, -A.T)
 
 
 def is_diagonal(A):
-    assert (is_squared(A))
+    assert is_squared(A)
     n = len(A)
     ans = True
     for i in range(n):
@@ -50,12 +50,12 @@ def is_diagonal(A):
 
 
 def is_orthogonal(A):
-    assert (is_inversible(A))
+    assert is_inversible(A)
     return np.allclose(A.T, np.linalg.inv(A))
 
 
 def is_diagonally_dominant(A):
-    assert (is_squared(A))
+    assert is_squared(A)
     n = len(A)
     ans = True
     for i in range(n):
@@ -70,7 +70,7 @@ def is_diagonally_dominant(A):
 
 
 def is_diagonally_strictly_dominant(A):
-    assert (is_squared(A))
+    assert is_squared(A)
     n = len(A)
     ans = True
     for i in range(n):
@@ -85,7 +85,7 @@ def is_diagonally_strictly_dominant(A):
 
 
 def has_LU(A):
-    assert (is_squared(A))
+    assert is_squared(A)
     n = len(A)
     ans = True
     for i in range(1, n):
@@ -133,7 +133,7 @@ def norm_p(x, p):
 
 
 def gauss_no_perm(A):
-    assert (is_squared(A))
+    assert is_squared(A)
     n = len(A)
     ans = A.copy()
 
@@ -147,7 +147,7 @@ def gauss_no_perm(A):
 
 
 def gauss(A):
-    assert (is_squared(A))
+    assert is_squared(A)
 
     def swap(M, i, j):
         temp = M[i].copy()
@@ -186,7 +186,7 @@ def has_one_solution(A):
 
 
 def LU(A):
-    assert (has_LU(A))
+    assert has_LU(A)
     n = len(A)
     L = np.identity(n)
     U = A.copy()
@@ -206,8 +206,8 @@ def LU(A):
 
 
 def LDL(A):
-    assert (has_LU(A))
-    assert (is_symmetric(A))
+    assert has_LU(A)
+    assert is_symmetric(A)
 
     L, U = LU(A)
     D = np.zeros(U.shape)
@@ -277,7 +277,7 @@ def QR_Householder(A):
 
 
 def solve(A, b):
-    assert(has_one_solution(A))
+    assert has_one_solution(A)
     n = len(A)
     Q, R = QR_Givens(A)
     ans = Q.T @ b
@@ -291,3 +291,65 @@ def solve(A, b):
         k -= 1
 
     return ans
+
+
+def power_iteration(A, niter=50000, eps=1e-16, print_iterations=False):
+    assert is_squared(A)
+    eigenvector = np.random.rand(A.shape[1])
+    eigenvector = eigenvector / np.linalg.norm(eigenvector)
+    old = np.ones(A.shape[1])
+    cos_angle = np.dot(eigenvector, old)
+
+    i = 0
+    while i < niter and not ((1 - eps) < cos_angle <= 1):
+        if print_iterations:
+            print('iteration ' + str(i + 1) + '/' + str(niter))
+        old = eigenvector
+        eigenvector = A @ eigenvector
+        eigenvector = eigenvector / norm_2(eigenvector)
+        cos_angle = np.dot(eigenvector, old)
+        i += 1
+
+    eigenvalue = np.dot(eigenvector, A @ eigenvector)
+
+    return eigenvalue, eigenvector
+
+
+def eigen(A, num=None, **kwargs):
+    assert is_symmetric(A)
+    if num is None or num > A.shape[0]:
+        num = A.shape[0]
+
+    A = A.copy()
+    eigenvalues = []
+    eigenvectors = np.zeros((A.shape[0], num))
+
+    for i in range(num):
+        l, v = power_iteration(A, **kwargs)
+        eigenvalues.append(l)
+        eigenvectors[:, i] = v
+
+        A = A - l * np.outer(v, v)
+
+    return np.array(eigenvalues), eigenvectors
+
+
+def jacobi(A, b, niter=10000):
+    assert is_diagonally_strictly_dominant(A)
+    x = np.zeros(A.shape[0])
+    D = np.diag(A)
+    R = A - np.diagflat(D)
+    for i in range(niter):
+        x = (b - np.dot(R, x)) / D
+    return x
+
+
+def gauss_siedel(A, b, niter=5000):
+    assert is_diagonally_strictly_dominant(A)
+    x = np.zeros(A.shape[0])
+    D = np.diagflat(np.diag(A))
+    L = -(np.tril(A) - D)
+    U = -(np.triu(A) - D)
+    for i in range(niter):
+        x = np.linalg.inv(D - L) @ b + np.linalg.inv(D - L) @ U @ x
+    return x

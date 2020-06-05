@@ -418,4 +418,131 @@ def solve_4():
     assert np.allclose(x_expected, x)
 
 
+'''##### eigen Tests #####'''
+
+
+@Test
+def eigen_1():
+    A = np.diag([1, 2, -0.5])
+    lamb_expected = np.array([2, 1, -0.5])
+    v_expected = np.array([
+        [0, 1, 0],
+        [1, 0, 0],
+        [0, 0, 1]
+    ])
+
+    lamb, v = eigen(A)
+
+    assert np.allclose(lamb, lamb_expected, atol=1e-3)
+    assert np.allclose(v, v_expected, atol=1e-3)
+
+
+@Test
+def eigen_2():
+    A = np.array([
+        [1, -2],
+        [-2, -3]
+    ])
+    lamb_expected = np.array([-1 - 2 * np.sqrt(2), -1 + 2 * np.sqrt(2)])
+    v_expected = np.array([
+        [(np.sqrt(2) - 1) / np.sqrt((np.sqrt(2) - 1) ** 2 + 1), (np.sqrt(2) + 1) / np.sqrt((np.sqrt(2) + 1) ** 2 + 1)],
+        [1 / np.sqrt((np.sqrt(2) - 1) ** 2 + 1), -1 / np.sqrt((np.sqrt(2) + 1) ** 2 + 1)]
+    ])
+
+    lamb, v = eigen(A)
+
+    assert np.allclose(lamb, lamb_expected, atol=1e-3)
+    assert np.allclose(v, v_expected, atol=1e-3)
+
+
+'''##### jacobi Tests #####'''
+
+
+@Test
+def jacobi_1():
+    A = np.eye(5)
+    b = np.arange(5)
+
+    x = jacobi(A, b)
+
+    assert np.allclose(x, b)
+
+
+@Test
+def jacobi_2():
+    A = np.array([
+        [2, 1, 0],
+        [0, 4, 0],
+        [2, 2, 8]
+    ])
+    b = np.array([1, 3, 3])
+    x_expected = np.array([1 / 8, 3 / 4, 5 / 32])
+
+    x = jacobi(A, b)
+
+    assert np.allclose(x_expected, x)
+
+
+@Test
+def jacobi_3():
+    A = np.array([
+        [2, 1, 0, 0, 0],
+        [0, 4, 0, 1, 2],
+        [0, 0, 3, 2, 0],
+        [0, 0, 0, 5, 0],
+        [0, 0, 0, 0, 3]
+    ])
+    b = np.array([1, 1, 5, 0, 1])
+    x_expected = np.array([11 / 24, 1 / 12, 5 / 3, 0, 1 / 3])
+
+    x = jacobi(A, b)
+
+    assert np.allclose(x_expected, x)
+
+
+'''##### gauss_siedel Tests #####'''
+
+
+@Test
+def gauss_siedel_1():
+    A = np.eye(5)
+    b = np.arange(5)
+
+    x = gauss_siedel(A, b)
+
+    assert np.allclose(x, b)
+
+
+@Test
+def gauss_siedel_2():
+    A = np.array([
+        [2, 1, 0],
+        [0, 4, 0],
+        [2, 2, 8]
+    ])
+    b = np.array([1, 3, 3])
+    x_expected = np.array([1 / 8, 3 / 4, 5 / 32])
+
+    x = gauss_siedel(A, b)
+
+    assert np.allclose(x_expected, x)
+
+
+@Test
+def gauss_siedel_3():
+    A = np.array([
+        [2, 1, 0, 0, 0],
+        [0, 4, 0, 1, 2],
+        [0, 0, 3, 2, 0],
+        [0, 0, 0, 5, 0],
+        [0, 0, 0, 0, 3]
+    ])
+    b = np.array([1, 1, 5, 0, 1])
+    x_expected = np.array([11 / 24, 1 / 12, 5 / 3, 0, 1 / 3])
+
+    x = gauss_siedel(A, b)
+
+    assert np.allclose(x_expected, x)
+
+
 run_tests()
