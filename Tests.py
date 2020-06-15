@@ -418,6 +418,52 @@ def solve_4():
     assert np.allclose(x_expected, x)
 
 
+'''##### power_iteration Tests #####'''
+
+
+@Test
+def power_iteration_1():
+    A = np.diag([1, 2, -0.5])
+    lamb_expected = 2
+    v_expected = np.array([0, 1, 0])
+
+    lamb, v = power_iteration(A)
+
+    assert np.isclose(lamb, lamb_expected)
+    assert np.allclose(v, v_expected)
+
+
+@Test
+def power_iteration_2():
+    A = np.array([
+        [1, -2],
+        [-2, -3]
+    ])
+    lamb_expected = -1 - 2 * np.sqrt(2)
+    v_expected = np.array([(np.sqrt(2) - 1) / np.sqrt((np.sqrt(2) - 1) ** 2 + 1), 1 / np.sqrt((np.sqrt(2) - 1) ** 2 + 1)])
+
+    lamb, v = power_iteration(A)
+
+    assert np.allclose(lamb, lamb_expected)
+    assert np.allclose(v, v_expected)
+
+
+@Test
+def power_iteration_3():
+    A = np.array([
+        [2, 0, 2],
+        [0, 0, 0],
+        [2, 0, 2]
+    ])
+    lamb_exp = 4
+    v_exp = np.array([1, 0, 1]) / np.sqrt(2)
+
+    lamb, v = power_iteration(A)
+
+    assert np.isclose(lamb_exp, lamb)
+    assert np.allclose(v_exp, v)
+
+
 '''##### eigen Tests #####'''
 
 
@@ -433,8 +479,8 @@ def eigen_1():
 
     lamb, v = eigen(A)
 
-    assert np.allclose(lamb, lamb_expected, atol=1e-3)
-    assert np.allclose(v, v_expected, atol=1e-3)
+    assert np.allclose(lamb, lamb_expected)
+    assert np.allclose(v, v_expected)
 
 
 @Test
@@ -451,8 +497,25 @@ def eigen_2():
 
     lamb, v = eigen(A)
 
-    assert np.allclose(lamb, lamb_expected, atol=1e-3)
-    assert np.allclose(v, v_expected, atol=1e-3)
+    assert np.allclose(lamb, lamb_expected)
+    assert np.allclose(v, v_expected)
+
+
+'''##### singular_values Tests #####'''
+
+
+@Test
+def singular_values_1():
+    A = np.diag([2, 1])
+    U_exp = np.eye(2)
+    Sigma_exp = A
+    V_exp = U_exp
+
+    U, Sigma, V = singular_values(A)
+
+    assert np.allclose(U_exp, U)
+    assert np.allclose(Sigma_exp, Sigma)
+    assert np.allclose(V_exp, V)
 
 
 '''##### jacobi Tests #####'''

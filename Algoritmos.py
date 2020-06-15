@@ -293,24 +293,19 @@ def solve(A, b):
     return ans
 
 
-def power_iteration(A, niter=50000, eps=1e-16, print_iterations=False):
-    assert is_squared(A)
+def power_iteration(A, niter=50000, eps=1e-16):
+    assert is_symmetric(A)
     eigenvector = np.random.rand(A.shape[1])
-    eigenvector = eigenvector / np.linalg.norm(eigenvector)
     old = np.ones(A.shape[1])
-    cos_angle = np.dot(eigenvector, old)
 
     i = 0
-    while i < niter and not ((1 - eps) < cos_angle <= 1):
-        if print_iterations:
-            print('iteration ' + str(i + 1) + '/' + str(niter))
+    while i < niter and not np.allclose(eigenvector, old, atol=eps):
         old = eigenvector
         eigenvector = A @ eigenvector
-        eigenvector = eigenvector / norm_2(eigenvector)
-        cos_angle = np.dot(eigenvector, old)
+        eigenvector = eigenvector / np.linalg.norm(eigenvector)
         i += 1
 
-    eigenvalue = np.dot(eigenvector, A @ eigenvector)
+    eigenvalue = np.dot(eigenvector, A @ eigenvector) / np.linalg.norm(eigenvector)
 
     return eigenvalue, eigenvector
 
@@ -334,22 +329,41 @@ def eigen(A, num=None, **kwargs):
     return np.array(eigenvalues), eigenvectors
 
 
+def singular_values(A):
+    lambs, U = eigen(A @ A.T)
+    lambs, V = eigen(A.T @ A)
+    Sigma = U.T @ A @ V
+
+    return U, Sigma, V
+
+
 def jacobi(A, b, niter=10000):
     assert is_diagonally_strictly_dominant(A)
-    x = np.zeros(A.shape[0])
-    D = np.diag(A)
-    R = A - np.diagflat(D)
+    x = np.zeros(A.shape[1])
+
+    D = np.diagflat(np.diag(A))
+    L = -(np.tril(A) - D)
+    U = -(np.triu(A) - D)
+
+    T = np.linalg.inv(D) @ (L + U)
+    c = np.linalg.inv(D) @ b
+
     for i in range(niter):
-        x = (b - np.dot(R, x)) / D
+        x = T @ x + c
     return x
 
 
 def gauss_siedel(A, b, niter=5000):
     assert is_diagonally_strictly_dominant(A)
-    x = np.zeros(A.shape[0])
+    x = np.zeros(A.shape[1])
+
     D = np.diagflat(np.diag(A))
     L = -(np.tril(A) - D)
     U = -(np.triu(A) - D)
+
+    T = np.linalg.inv(D - L) @ U
+    c = np.linalg.inv(D - L) @ b
+
     for i in range(niter):
-        x = np.linalg.inv(D - L) @ b + np.linalg.inv(D - L) @ U @ x
+        x = T @ x + c
     return x
