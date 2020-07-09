@@ -367,3 +367,100 @@ def gauss_siedel(A, b, niter=5000):
     for i in range(niter):
         x = T @ x + c
     return x
+
+
+def lagrange_polynomial(x_s, y_s, x):
+    def L(x_s, k, x):
+        x_k = x_s[k]
+        x_s = np.delete(x_s, k)
+        L = np.prod(x - x_s) / np.prod(x_k - x_s)
+
+        return L
+
+    P = 0
+    for k in range(len(y_s)):
+        P = P + y_s[k] * L(x_s, k, x)
+
+    return P
+
+
+def divided_differences(x_s, y_s, x):
+    def brackets(x_s, y_s):
+        if len(y_s) == 1:
+            return y_s[0]
+        else:
+            return (brackets(x_s[1:], y_s[1:]) - brackets(x_s[:-1], y_s[:-1])) / (x_s[-1] - x_s[0])
+
+    P = y_s[0]
+    for k in range(1, len(x_s) - 1):
+        P = P + brackets(x_s[:k + 1], y_s[:k + 1]) * np.prod(x - x_s[:k])
+
+    return P
+
+
+def lineal_interpolation(x_s, y_s, x):
+    if x <= x_s[0]:
+        return ((y_s[1] - y_s[0]) / (x_s[1] - x_s[0])) * (x - x_s[0]) + y_s[0]
+    elif x >= x_s[-1]:
+        return ((y_s[-1] - y_s[-2]) / (x_s[-1] - x_s[-2])) * (x - x_s[-1]) + y_s[-1]
+    else:
+        i = 0
+        while not (x_s[i] <= x < x_s[i + 1]):
+            i += 1
+        return ((y_s[i + 1] - y_s[i]) / (x_s[i + 1] - x_s[i])) * (x - x_s[i]) + y_s[i]
+
+
+def symmetric_differences(x, eps, f, **kwargs):
+    return (f(x + eps, **kwargs) - f(x - eps, **kwargs)) / (2 * eps)
+
+
+def trapezoidal(a, b, n, f, **kwargs):
+    intervals = np.linspace(a, b, n)
+    h = (b - a) / n
+    sum = 0
+    for i in intervals[1:n - 2]:
+        sum = sum + f(i, **kwargs)
+
+    return h / 2 * (f(intervals[0], **kwargs) + 2 * sum + f(intervals[-1], **kwargs))
+
+
+def simpson(a, b, n, f, **kwargs):
+    if n % 2 != 0:
+        n += 1
+    intervals = np.linspace(a, b, n)
+    h = (b - a) / n
+    sum = 0
+    for i in range(int(n / 2 - 2)):
+        sum = sum + f(intervals[2 * i], **kwargs) + 4 * f(intervals[2 * i + 1], **kwargs) + f(intervals[2 * i + 2], **kwargs)
+
+    return h / 3 * sum
+
+
+def bisection(left, right, N, eps, f, **kwargs):
+    mid = (left + right) / 2
+    f_mid = f(mid, **kwargs)
+    i = 0
+    while i < N and (np.abs(f_mid) < eps or mid < eps):
+        mid = (left + right) / 2
+        f_left = f(left, **kwargs)
+        f_mid = f(mid, **kwargs)
+
+        if f_mid * f_left > 0:
+            left = mid
+        else:
+            right = mid
+
+        i += 1
+
+    return mid
+
+
+def newton(x, eps, N, f, df, **kwargs):
+    fx = f(x, **kwargs)
+    i = 0
+    while i < N and np.abs(fx) > eps:
+        x = x - f(x, **kwargs) / df(x, **kwargs)
+        fx = f(x, **kwargs)
+        i += 1
+
+    return x
