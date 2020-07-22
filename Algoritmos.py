@@ -87,10 +87,13 @@ def is_diagonally_strictly_dominant(A):
 def has_LU(A):
     assert is_squared(A)
     n = len(A)
-    ans = True
-    for i in range(1, n):
-        B = A[:i, :i]
-        ans = is_inversible(B)
+    ans = A[0, 0] > 0
+    i = 1
+    B = A[:i + 1, :i + 1]
+    while i < n and ans:
+        B = A[:i + 1, :i + 1]
+	ans = np.linalg.det(np.linalg.inv(B)) > 0
+	i += 1
 
     return ans
 
