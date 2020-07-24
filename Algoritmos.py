@@ -92,8 +92,11 @@ def has_LU(A):
     B = A[:i + 1, :i + 1]
     while i < n and ans:
         B = A[:i + 1, :i + 1]
-	ans = np.linalg.det(np.linalg.inv(B)) > 0
-	i += 1
+        if np.linalg.det(B) == 0:
+            ans = False
+        else:
+            ans = np.linalg.det(np.linalg.inv(B)) > 0
+        i += 1
 
     return ans
 
@@ -418,13 +421,10 @@ def symmetric_differences(x, eps, f, **kwargs):
 
 
 def trapezoidal(a, b, n, f, **kwargs):
-    intervals = np.linspace(a, b, n)
+    intervals = np.linspace(a, b, n + 1, endpoint=True)
     h = (b - a) / n
-    sum = 0
-    for i in intervals[1:n - 2]:
-        sum = sum + f(i, **kwargs)
 
-    return h / 2 * (f(intervals[0], **kwargs) + 2 * sum + f(intervals[-1], **kwargs))
+    return h * (np.sum(f(intervals[1:n]), **kwargs) + (f(a, **kwargs) + f(b, **kwargs)) / 2)
 
 
 def simpson(a, b, n, f, **kwargs):
